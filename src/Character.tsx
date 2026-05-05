@@ -290,7 +290,7 @@ function Passive() {
 	const getPassive = (passiveSkill: Skill) => {
 		const statModifier = skills[passiveSkill].override ?? stats[skillsStat[passiveSkill]]
 		const isProficient = skills[passiveSkill].proficiency === 'proficient'
-		const modifier = ~~((statModifier + (isProficient ? proficiencyBonus : 0) - 10) / 2)
+		const modifier = +getModifier(statModifier, isProficient ? proficiencyBonus : 0)
 		return `+${modifier + 10}`
 	}
 

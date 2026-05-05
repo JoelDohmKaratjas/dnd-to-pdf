@@ -4,6 +4,7 @@ export default {
 	name: 'Wendell Periwinkle',
 	info: {
 		dndClass: 'Warlock',
+		subClass: 'Fiend Patron',
 		level: 5,
 		race: 'Dragonborn',
 		background: 'Charlatan'
@@ -25,7 +26,7 @@ export default {
 			wis: 'proficient',
 			cha: 'proficient'
 		},
-		modifiers: []
+		modifiers: ['ADV on Concentration']
 	},
 	proficiencies: {
 		armour: ['Light'],
@@ -40,38 +41,38 @@ export default {
 	},
 	hit: {
 		total: 5,
-		hitDice: 5
+		hitDice: 8
 	},
 	deathSaves: {
 		successes: 0,
 		failures: 0
 	},
 	skills: {
-		acrobatics: 'not',
-		animal_handling: 'not',
-		arcana: 'proficient',
-		athletics: 'not',
-		deception: 'proficient',
-		history: 'not',
-		insight: 'not',
-		intimidation: 'proficient',
-		investigation: 'not',
-		medicine: 'not',
-		nature: 'not',
-		perception: 'not',
-		performance: 'proficient',
-		persuasion: 'proficient',
-		religion: 'not',
-		sleight_of_hand: 'proficient',
-		stealth: 'not',
-		survival: 'not'
+		acrobatics: { proficiency: 'not', override: null },
+		animal_handling: { proficiency: 'not', override: null },
+		arcana: { proficiency: 'proficient', override: null },
+		athletics: { proficiency: 'not', override: null },
+		deception: { proficiency: 'proficient', override: null },
+		history: { proficiency: 'not', override: null },
+		insight: { proficiency: 'not', override: null },
+		intimidation: { proficiency: 'proficient', override: null },
+		investigation: { proficiency: 'not', override: null },
+		medicine: { proficiency: 'not', override: null },
+		nature: { proficiency: 'not', override: null },
+		perception: { proficiency: 'not', override: null },
+		performance: { proficiency: 'proficient', override: null },
+		persuasion: { proficiency: 'proficient', override: null },
+		religion: { proficiency: 'not', override: null },
+		sleight_of_hand: { proficiency: 'proficient', override: null },
+		stealth: { proficiency: 'not', override: null },
+		survival: { proficiency: 'not', override: null }
 	},
 	misc: {
 		armourClass: 14,
 		heroicInspiration: false,
 		speed: 30
 	},
-	defence: [],
+	defence: ['Acid (Resistance)'],
 	conditions: [],
 	spellSlots: {
 		'1st': null,
@@ -88,5 +89,22 @@ export default {
 		saveDC: 15,
 		attackModifier: 7
 	},
-	senses: ['60ft darkvision']
+	senses: ['60ft darkvision'],
+	notes: [
+		{
+			type: 'COUNT',
+			count: 3,
+			text: 'Breath Weapon'
+		},
+		{
+			type: 'COUNT',
+			count: 1,
+			text: 'Magical Cunning'
+		},
+		{
+			type: 'COUNT',
+			count: 1,
+			text: 'Draconic Flight'
+		}
+	]
 } satisfies CharacterSheetData

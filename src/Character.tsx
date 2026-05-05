@@ -5,11 +5,11 @@ import frame from './frame.png'
 import novaMonoFont from './NovaMono-Regular.ttf'
 import { typedObject } from './typedObject'
 
-type AppProps = {
+type CharacterProps = {
 	character: CharacterSheetData
 }
 
-export default function App({ character }: AppProps) {
+export default function Character({ character }: CharacterProps) {
 	return (
 		<Document>
 			<CharacterContext.Provider value={character}>
@@ -52,8 +52,8 @@ const useCharacterContext = () => {
 	}
 }
 
-const getModifier = (value: number, bonus: number) => {
-	const modifier = ~~((value - 10) / 2) + bonus
+const getModifier = (value: number, bonus: number, override?: number | null) => {
+	const modifier = override ?? ~~((value - 10) / 2) + bonus
 	return modifier >= 0 ? `+${modifier}` : `${modifier}`
 }
 
@@ -76,7 +76,7 @@ const CharacterSheet = () => {
 		<Page size='A4'>
 			<ImageBackground src={frame}>
 				<View style={{ height: '100%' }}>
-					<Character />
+					<CharacterInfo />
 					<Stats />
 					<ProficiencyBonus />
 					<SavingThrows />
@@ -88,18 +88,19 @@ const CharacterSheet = () => {
 					<Spell />
 					<Passive />
 					<Senses />
+					<Notes />
 				</View>
 			</ImageBackground>
 		</Page>
 	)
 }
 
-function Character() {
+function CharacterInfo() {
 	const { info, name } = useCharacterContext()
 
 	return (
 		<>
-			<Text style={txt(65, 60)}>{info.dndClass} - {info.level}</Text>
+			<Text style={txt(68, 55, 10)}>{info.dndClass} ({info.subClass}) - {info.level}</Text>
 			<Text style={txt(60, 260, 24)}>{name}</Text>
 		</>
 	)
@@ -178,10 +179,10 @@ function Skills() {
 	const { skills, stats, proficiencyBonus } = useCharacterContext()
 	return (
 		<>
-			{typedObject.entries(skills).map(([skill, proficiency], i) => {
-				const statModifier = stats[skillsStat[skill]]
+			{typedObject.entries(skills).map(([skill, { proficiency, override }], i) => {
+				const statValue = stats[skillsStat[skill]]
 				const isProficient = proficiency === 'proficient'
-				const value = getModifier(statModifier, isProficient ? proficiencyBonus : 0)
+				const value = getModifier(statValue, isProficient ? proficiencyBonus : 0, override)
 				return (
 					<Fragment key={skill}>
 						<Text style={txt(531 + (i * 14.4), 33, 12)}>{value}</Text>
@@ -203,8 +204,7 @@ function Health() {
 			<Text style={txt(265, 220 - (initiative < 0 ? 5 : 0))}>{initiative}</Text>
 			<Text style={txt(265, 265)}>{misc.speed}ft</Text>
 			<Text style={txt(315, 215, 12)}>{health.max}</Text>
-			<Text style={txt(446, 172, 10)}>{hit.total}</Text>
-			<Text style={txt(461, 179, 20)}>{hit.hitDice}</Text>
+			<Text style={txt(446, 172, 10)}>{hit.total} - d{hit.hitDice}</Text>
 		</>
 	)
 }
@@ -218,9 +218,9 @@ function Attacks() {
 				const isLong = name.length > 9
 				return (
 					<Fragment key={name}>
-						<Text style={txt(538 + (i * 14.4) + (isLong ? 4 : 0), 149, isLong ? 8 : 12)}>{name}</Text>
-						<Text style={txt(538 + (i * 14.4), 216, 12)}>+{attackBonus}</Text>
-						<Text style={txt(538 + (i * 14.4), 252, 12)}>{damage}</Text>
+						<Text style={txt(538 + (i * 22.4) + (isLong ? 3 : 0), 149, isLong ? 8 : 12)}>{name}</Text>
+						<Text style={txt(538 + (i * 22.4), 216, 12)}>+{attackBonus}</Text>
+						<Text style={txt(538 + (i * 22.4), 252, 12)}>{damage}</Text>
 					</Fragment>
 				)
 			})}
@@ -288,8 +288,8 @@ function Passive() {
 	const { skills, stats, proficiencyBonus } = useCharacterContext()
 
 	const getPassive = (passiveSkill: Skill) => {
-		const statModifier = stats[skillsStat[passiveSkill]]
-		const isProficient = skills[passiveSkill] === 'proficient'
+		const statModifier = skills[passiveSkill].override ?? stats[skillsStat[passiveSkill]]
+		const isProficient = skills[passiveSkill].proficiency === 'proficient'
 		const modifier = ~~((statModifier + (isProficient ? proficiencyBonus : 0) - 10) / 2)
 		return `+${modifier + 10}`
 	}
@@ -309,6 +309,35 @@ function Senses() {
 	return (
 		<View style={txt(452, 490, 8)}>
 			{senses.map(sense => <Text key={sense}>{sense}</Text>)}
+		</View>
+	)
+}
+
+function Notes() {
+	const { notes } = useCharacterContext()
+	const highestCount = notes.reduce((acc, note) => note.type === 'COUNT' && note.count > acc ? note.count : acc, 0)
+
+	return (
+		<View style={txt(560, 340, 14)}>
+			{notes.map(note => {
+				const tracker = note.type === 'COUNT'
+					? Array.from({ length: note.count }, (_, i) => <Text key={i} style={{ fontWeight: 'bold' }}>○ </Text>)
+					: [
+						<Fragment key='padding'>
+							<Text style={{ fontWeight: 'bold' }}>__</Text>
+							<Text style={{ fontWeight: 'bold' }}>_ </Text>
+						</Fragment>
+					]
+				while (tracker.length < highestCount - (note.type === 'NUMBER' ? 1 : 0)) {
+					tracker.push(<Text key={tracker.length} style={{ fontWeight: 'bold' }}>  </Text>)
+				}
+				return (
+					<View key={note.text} style={{ display: 'flex', flexDirection: 'row' }}>
+						{tracker.reverse()}
+						<Text>{note.text}</Text>
+					</View>
+				)
+			})}
 		</View>
 	)
 }

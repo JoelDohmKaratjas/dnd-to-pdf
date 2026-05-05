@@ -1,7 +1,7 @@
 import ReactPDF from '@react-pdf/renderer'
 import { readdir } from 'node:fs/promises'
 import type { CharacterSheetData } from '../characters/characterData'
-import App from './App'
+import Character from './Character'
 
 const files = await readdir('./characters')
 for (const file of files) {
@@ -12,7 +12,7 @@ for (const file of files) {
 	const characterModule = await import(`../characters/${file}`) as { default: CharacterSheetData }
 	const character = characterModule.default
 	const name = file.replace('.ts', '')
-	await ReactPDF.render(<App character={character} />, `./out/${name}.pdf`)
+	await ReactPDF.render(<Character character={character} />, `./out/${name}.pdf`)
 }
 
-console.log('Finished - ', files.length)
+console.log('Finished - ', files.length - 1)

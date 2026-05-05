@@ -4,6 +4,7 @@ export default {
 	name: 'Penelope Ly-Khart',
 	info: {
 		dndClass: 'Wizard',
+		subClass: 'Diviner',
 		level: 5,
 		race: 'Human',
 		background: 'Scribe'
@@ -25,7 +26,7 @@ export default {
 			wis: 'proficient',
 			cha: 'not'
 		},
-		modifiers: []
+		modifiers: ['ADV on Concentration']
 	},
 	proficiencies: {
 		armour: [],
@@ -40,31 +41,31 @@ export default {
 	},
 	hit: {
 		total: 5,
-		hitDice: 5
+		hitDice: 6
 	},
 	deathSaves: {
 		successes: 0,
 		failures: 0
 	},
 	skills: {
-		acrobatics: 'not',
-		animal_handling: 'not',
-		arcana: 'proficient',
-		athletics: 'not',
-		deception: 'not',
-		history: 'proficient',
-		insight: 'proficient',
-		intimidation: 'not',
-		investigation: 'proficient',
-		medicine: 'proficient',
-		nature: 'proficient',
-		perception: 'proficient',
-		performance: 'not',
-		persuasion: 'not',
-		religion: 'proficient',
-		sleight_of_hand: 'not',
-		stealth: 'not',
-		survival: 'proficient'
+		acrobatics: { proficiency: 'not', override: null },
+		animal_handling: { proficiency: 'not', override: null },
+		arcana: { proficiency: 'proficient', override: 10 },
+		athletics: { proficiency: 'not', override: null },
+		deception: { proficiency: 'not', override: null },
+		history: { proficiency: 'proficient', override: null },
+		insight: { proficiency: 'proficient', override: null },
+		intimidation: { proficiency: 'not', override: null },
+		investigation: { proficiency: 'proficient', override: null },
+		medicine: { proficiency: 'proficient', override: null },
+		nature: { proficiency: 'proficient', override: null },
+		perception: { proficiency: 'proficient', override: null },
+		performance: { proficiency: 'not', override: null },
+		persuasion: { proficiency: 'not', override: null },
+		religion: { proficiency: 'proficient', override: null },
+		sleight_of_hand: { proficiency: 'not', override: null },
+		stealth: { proficiency: 'not', override: null },
+		survival: { proficiency: 'proficient', override: null }
 	},
 	misc: {
 		armourClass: 12,
@@ -88,5 +89,22 @@ export default {
 		saveDC: 15,
 		attackModifier: 7
 	},
-	senses: []
+	senses: [],
+	notes: [
+		{
+			type: 'COUNT',
+			count: 3,
+			text: 'Arcane Recovery'
+		},
+		{
+			type: 'COUNT',
+			count: 1,
+			text: 'Heroic Inspiration'
+		},
+		{
+			type: 'COUNT',
+			count: 2,
+			text: 'Portent Rolls'
+		}
+	]
 } satisfies CharacterSheetData

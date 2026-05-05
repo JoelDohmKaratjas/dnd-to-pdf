@@ -4,6 +4,7 @@ export default {
 	name: 'Eldess Polaris',
 	info: {
 		dndClass: 'Druid',
+		subClass: 'Circle of the Stars',
 		level: 5,
 		race: 'Elf, Wood',
 		background: 'Hermit'
@@ -25,7 +26,7 @@ export default {
 			wis: 'proficient',
 			cha: 'not'
 		},
-		modifiers: ['Advantage against Charmed']
+		modifiers: ['ADV against Charmed', 'ADV on Concentration']
 	},
 	proficiencies: {
 		armour: ['Light'],
@@ -40,31 +41,31 @@ export default {
 	},
 	hit: {
 		total: 5,
-		hitDice: 5
+		hitDice: 8
 	},
 	deathSaves: {
 		successes: 0,
 		failures: 0
 	},
 	skills: {
-		acrobatics: 'not',
-		animal_handling: 'proficient',
-		arcana: 'not',
-		athletics: 'not',
-		deception: 'not',
-		history: 'not',
-		insight: 'not',
-		intimidation: 'not',
-		investigation: 'not',
-		medicine: 'proficient',
-		nature: 'proficient',
-		perception: 'proficient',
-		performance: 'not',
-		persuasion: 'not',
-		religion: 'proficient',
-		sleight_of_hand: 'not',
-		stealth: 'not',
-		survival: 'not'
+		acrobatics: { proficiency: 'not', override: null },
+		animal_handling: { proficiency: 'proficient', override: null },
+		arcana: { proficiency: 'not', override: 4 },
+		athletics: { proficiency: 'not', override: null },
+		deception: { proficiency: 'not', override: null },
+		history: { proficiency: 'not', override: null },
+		insight: { proficiency: 'not', override: null },
+		intimidation: { proficiency: 'not', override: null },
+		investigation: { proficiency: 'not', override: null },
+		medicine: { proficiency: 'proficient', override: null },
+		nature: { proficiency: 'proficient', override: 7 },
+		perception: { proficiency: 'proficient', override: null },
+		performance: { proficiency: 'not', override: null },
+		persuasion: { proficiency: 'not', override: null },
+		religion: { proficiency: 'proficient', override: null },
+		sleight_of_hand: { proficiency: 'not', override: null },
+		stealth: { proficiency: 'not', override: null },
+		survival: { proficiency: 'not', override: null }
 	},
 	misc: {
 		armourClass: 14,
@@ -88,5 +89,27 @@ export default {
 		saveDC: 15,
 		attackModifier: 7
 	},
-	senses: ['60ft darkvision']
+	senses: ['60ft darkvision'],
+	notes: [
+		{
+			type: 'COUNT',
+			count: 1,
+			text: 'Longstrider'
+		},
+		{
+			type: 'COUNT',
+			count: 1,
+			text: 'Pass without Trace'
+		},
+		{
+			type: 'COUNT',
+			count: 4,
+			text: 'Guiding Bolt'
+		},
+		{
+			type: 'COUNT',
+			count: 2,
+			text: 'Wild Shape'
+		}
+	]
 } satisfies CharacterSheetData

@@ -20,11 +20,21 @@ export type Skill =
 	| 'stealth'
 	| 'survival'
 export type SpellSlot = '1st' | '2nd' | '3rd'
+export type Notes = {
+	type: 'NUMBER'
+	count: null
+	text: string
+} | {
+	type: 'COUNT'
+	count: number
+	text: string
+}
 
 export type CharacterSheetData = {
 	name: string
 	info: {
 		dndClass: string
+		subClass: string
 		level: number
 		race: string
 		background: string
@@ -53,7 +63,7 @@ export type CharacterSheetData = {
 		successes: number
 		failures: number
 	}
-	skills: Record<Skill, Proficiency>
+	skills: Record<Skill, {	proficiency: Proficiency, override: number | null }>
 	misc: {
 		armourClass: number
 		heroicInspiration: boolean
@@ -73,4 +83,5 @@ export type CharacterSheetData = {
 		attackModifier: number
 	}
 	senses: string[]
+	notes: Notes[]
 }
